@@ -455,7 +455,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 4c390000be440000282c0000302f0000ac8dfeffe684feff043000000a370000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -546,7 +546,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ee9dffff669effffd89effff32a0ffff1ea4ffff96a4ffff08a5ffff62a6ffff2cb1ffffa4b1ffff16b2ffff70b3ffffc2baffff3abbffffacbbffff06bdffff6ec0ffffe6c0ffff58c1ffffb2c2ffff44c6ffffbcc6ffff2ec7ffff88c8ffffa4d2ffff1cd3ffff8ed3ffffe8d4ffffb4dfffff2ce0ffff9ee0fffff8e1ffff80ebfffff8ebffff6aecffffc4edffff2af2ffffa0f2ffff10f3ffff6ef4ffffe4fbffff00000000ee2d0000082e00006631000030330000fa340000583a0000223c0000
+    m_ExpandedIDs: 42f5ffff0af6ffffccf6ffff26f8ffffe4fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
