@@ -4,25 +4,31 @@ using UnityEngine.EventSystems;
 using UnityEngine.Experimental.XR;
 using UnityEngine.XR.ARFoundation;
 
+/**
+ * Platziert das Objekt automatisch an einer Stelle.
+ */
 [RequireComponent(typeof(ARSessionOrigin))]
 public class AutoPlaceItem : MonoBehaviour
 {
-
     [SerializeField]
-    //[Tooltip("Instantiates this prefab on a plane at the touch Location.")]
     GameObject GameObjectToPlace;
-
 
     ARSessionOrigin m_SessionOrigin;
 
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 
+    /**
+     * Wird aufgerufen beim inizialisieren.
+     */
     void Awake()
     {
         m_SessionOrigin = GetComponent<ARSessionOrigin>();
     }
 
-
+    /**
+     * Platziert dass Objekt automisch in die Mitte des Bildschirmes, falls es noch nicht angezeigt wird
+     * und eine Oberfläche vorhanden ist um diese Anzuzeigen.
+     */
     void Update()
     {
 
