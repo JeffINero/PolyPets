@@ -17,6 +17,7 @@ public class PlaceOnPlan : MonoBehaviour {
         set { m_PlacedPrefab = value; }
     }
 
+    public GameObject playPanel;
 
     public GameObject spawnedObject { get; private set;}
 
@@ -34,7 +35,7 @@ public class PlaceOnPlan : MonoBehaviour {
         {
             Touch touch = Input.GetTouch(0);
 
-            if (m_SessionOrigin.Raycast(Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0)), s_Hits, TrackableType.PlaneWithinPolygon))
+            if (playPanel.active&& m_SessionOrigin.Raycast(touch.position, s_Hits, TrackableType.PlaneWithinPolygon))
             {
                 
                 Pose hitPose = s_Hits[0].pose;
