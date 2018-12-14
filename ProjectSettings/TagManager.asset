@@ -36,8 +36,11 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - TOP
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Icons
+    uniqueID: 2818205583
     locked: 0

@@ -1,15 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
+using System.Globalization;
 
 /**
  * Kontroller um die Button funktionalität zu kontrollieren.
  */
-public class ControllButtons : MonoBehaviour {
+public class ControllButtons : MonoBehaviour
+{
+    void PrintTime(object state)
+    {
+
+    }
+
+
+    private PolyPet polyPet;
+    private Timer stateTimer;
 
     public Button menuButton, walkButton, feedButton, playButton, doctorButton, shopButton, reportButton, leaveButton;
-    public Text healthyText, walkText;
+    public Text healthyText, walkText, feedingText, attentionText, movmentText;
     public GameObject shopPanel, reportPanel, playPanel, feedPanel;
 
     /**
@@ -22,6 +35,58 @@ public class ControllButtons : MonoBehaviour {
         {
             cleanAll();
         }
+    }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        string name = "PolyPet";
+        int hungerSatisfied = 1000;
+        int thirstSatisfied = 1000;
+        int playingSatisfied = 1000;
+        int movmentSatisfied = 1000;
+        DateTime lastUpdate = DateTime.Now;
+
+        if (File.Exists(Application.persistentDataPath + "/myPet.txt"))
+        {
+            string[] test = File.ReadAllLines(Application.persistentDataPath + "/myPet.txt");
+
+            try
+            {
+                if (test.Length > 5)
+                {
+                    name = test[0];
+                    hungerSatisfied = Convert.ToInt32(test[1]);
+                    thirstSatisfied = Convert.ToInt32(test[2]);
+                    playingSatisfied = Convert.ToInt32(test[3]);
+                    movmentSatisfied = Convert.ToInt32(test[4]);
+                    lastUpdate = DateTime.ParseExact(test[5], "O", CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception e)
+            {
+                // Converting Failed
+            }
+        }
+
+        polyPet = new PolyPet(name, hungerSatisfied, thirstSatisfied, playingSatisfied, movmentSatisfied, lastUpdate);
+
+        stateTimer = new Timer(polyPet.updateStats, null, 0, 900000);
+
+        //File.WriteAllLines(Application.persistentDataPath + "/PolyPets/myPet", new string[] { "TEST OF POLY", "PETS" });
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        File.WriteAllLines(Application.persistentDataPath + "/myPet.txt", new string[] {
+                polyPet.Name,
+                ""+polyPet.HungerSatisfied,
+                ""+polyPet.ThirstSatisfied,
+                ""+polyPet.PlayingSatisfied,
+                ""+polyPet.MovmentSatisfied,
+                DateTime.Now.ToString("O")
+        });
+
+        stateTimer.Dispose();
     }
 
     /**
@@ -127,6 +192,10 @@ public class ControllButtons : MonoBehaviour {
     public void openReport()
     {
         cleanAll();
+
+        feedingText.text = polyPet.HungerSatisfied / 100 + "";
+        attentionText.text = polyPet.PlayingSatisfied / 100 + "";
+        movmentText.text = polyPet.Name + "";
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
         reportPanel.SetActive(true);
