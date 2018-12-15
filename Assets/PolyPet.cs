@@ -29,8 +29,7 @@ public class PolyPet
 
         // Wie oft muss "updateStats" aufgerufen werden, damit die Stats angepasst werden auf die vergangene Zeit.
         // ("updateStats" wird standard mäßig all 10 Minuten aufgerufen (900 Sekunden))
-        int tenMinutesTimesPassed =  (int) (DateTime.Now.Subtract(lastUpdate)).TotalSeconds / 900;
-        this.name = tenMinutesTimesPassed + "";
+        int tenMinutesTimesPassed =  (int) ((DateTime.Now.Subtract(lastUpdate)).TotalSeconds / 900.0);
 
         // Für die verpasste Zeit "updateStats" aufrufen.
         for (int i = 0; i < tenMinutesTimesPassed; i++)
@@ -62,4 +61,25 @@ public class PolyPet
     public int ThirstSatisfied { get { return thirstSatisfied; } }
     public int PlayingSatisfied { get { return playingSatisfied; } }
     public int MovmentSatisfied { get { return movmentSatisfied; } }
+    public List<PolyPetStatsHistory> History { get { return history; } }
+
+    public void resetMovment()
+    {
+        movmentSatisfied = 1100;
+    }
+
+    public void resetThirst()
+    {
+        thirstSatisfied = 1100;
+    }
+
+    public void resetHunger()
+    {
+        hungerSatisfied = 1100;
+    }
+
+    public void resetPlaying()
+    {
+        playingSatisfied = 1100;
+    }
 }

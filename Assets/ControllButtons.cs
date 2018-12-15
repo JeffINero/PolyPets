@@ -12,17 +12,12 @@ using System.Globalization;
  */
 public class ControllButtons : MonoBehaviour
 {
-    void PrintTime(object state)
-    {
-
-    }
-
 
     private PolyPet polyPet;
     private Timer stateTimer;
 
     public Button menuButton, walkButton, feedButton, playButton, doctorButton, shopButton, reportButton, leaveButton;
-    public Text healthyText, walkText, feedingText, attentionText, movmentText;
+    public Text healthyText, walkText, feedingText, attentionText, movmentText, reportResultText;
     public GameObject shopPanel, reportPanel, playPanel, feedPanel;
 
     /**
@@ -37,13 +32,16 @@ public class ControllButtons : MonoBehaviour
         }
     }
 
+    /**
+     * Wird aufgerufen wenn die App geöffnet / fortgesetzt wird.
+     */
     void OnApplicationFocus(bool hasFocus)
     {
         string name = "PolyPet";
-        int hungerSatisfied = 1000;
-        int thirstSatisfied = 1000;
-        int playingSatisfied = 1000;
-        int movmentSatisfied = 1000;
+        int hungerSatisfied = 1100;
+        int thirstSatisfied = 11000;
+        int playingSatisfied = 1100;
+        int movmentSatisfied = 1100;
         DateTime lastUpdate = DateTime.Now;
 
         if (File.Exists(Application.persistentDataPath + "/myPet.txt"))
@@ -70,23 +68,33 @@ public class ControllButtons : MonoBehaviour
 
         polyPet = new PolyPet(name, hungerSatisfied, thirstSatisfied, playingSatisfied, movmentSatisfied, lastUpdate);
 
-        stateTimer = new Timer(polyPet.updateStats, null, 0, 900000);
+        stateTimer = new Timer(polyPet.updateStats, null, 0, 1000);
 
         //File.WriteAllLines(Application.persistentDataPath + "/PolyPets/myPet", new string[] { "TEST OF POLY", "PETS" });
     }
 
+    /**
+     * Wird aufgerufen, wenn die App pausiert wird.
+     */
     void OnApplicationPause(bool pauseStatus)
     {
-        File.WriteAllLines(Application.persistentDataPath + "/myPet.txt", new string[] {
+        if (pauseStatus)
+        {
+            File.WriteAllLines(Application.persistentDataPath + "/myPet.txt", new string[] {
                 polyPet.Name,
                 ""+polyPet.HungerSatisfied,
                 ""+polyPet.ThirstSatisfied,
                 ""+polyPet.PlayingSatisfied,
                 ""+polyPet.MovmentSatisfied,
                 DateTime.Now.ToString("O")
-        });
+            });
 
-        stateTimer.Dispose();
+            stateTimer.Dispose();
+        }
+        else
+        {
+            OnApplicationFocus(true);
+        }
     }
 
     /**
@@ -147,6 +155,8 @@ public class ControllButtons : MonoBehaviour
         leaveButton.gameObject.SetActive(true);
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
+
+        polyPet.resetMovment();
     }
 
     /**
@@ -159,7 +169,6 @@ public class ControllButtons : MonoBehaviour
         menuButton.gameObject.SetActive(false);
         shopPanel.SetActive(true);
         leaveButton.gameObject.SetActive(true);
-
     }
 
     /**
@@ -172,6 +181,8 @@ public class ControllButtons : MonoBehaviour
         menuButton.gameObject.SetActive(false);
         playPanel.SetActive(true);
         leaveButton.gameObject.SetActive(true);
+
+        polyPet.resetPlaying();
     }
 
     /**
@@ -184,6 +195,9 @@ public class ControllButtons : MonoBehaviour
         menuButton.gameObject.SetActive(false);
         feedPanel.SetActive(true);
         leaveButton.gameObject.SetActive(true);
+
+        polyPet.resetHunger();
+        polyPet.resetThirst();
     }
 
     /**
@@ -193,13 +207,51 @@ public class ControllButtons : MonoBehaviour
     {
         cleanAll();
 
-        feedingText.text = polyPet.HungerSatisfied / 100 + "";
-        attentionText.text = polyPet.PlayingSatisfied / 100 + "";
-        movmentText.text = polyPet.Name + "";
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
         reportPanel.SetActive(true);
         leaveButton.gameObject.SetActive(true);
 
+        if ((polyPet.HungerSatisfied / 100) + (polyPet.PlayingSatisfied / 100) + (polyPet.MovmentSatisfied / 100) > 22)
+        {
+            reportResultText.text = "You are ready to own a Pet";
+            reportResultText.color = Color.black;
+        }
+        else if ((polyPet.HungerSatisfied / 100) + (polyPet.PlayingSatisfied / 100) + (polyPet.MovmentSatisfied / 100) > 11)
+        {
+            reportResultText.text = "You are not quite ready to own a Pet";
+            reportResultText.color = Color.yellow;
+        }
+        else
+        {
+            reportResultText.text = "You are not ready to own a Pet";
+            reportResultText.color = Color.red;
+        }
+
+        feedingText.text = polyPet.HungerSatisfied / 100 + "";
+        attentionText.text = polyPet.PlayingSatisfied / 100 + "";
+        movmentText.text = polyPet.MovmentSatisfied / 100 + "";
+
+        updateColor(polyPet.HungerSatisfied / 100, feedingText);
+        updateColor(polyPet.PlayingSatisfied / 100, attentionText);
+        updateColor(polyPet.MovmentSatisfied / 100, movmentText);
+    }
+
+    /**
+     * Setzt die Farbe nach dem Wert.
+     */
+    private void updateColor(int value, Text text)
+    {
+        if (value > 5)
+        {
+            text.color = Color.black;
+            return;
+        }
+        if (value > 2)
+        {
+            text.color = Color.yellow;
+            return;
+        }
+        text.color = Color.red;
     }
 }

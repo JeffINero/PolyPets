@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -552,6 +552,7 @@ MonoBehaviour:
   feedingText: {fileID: 1452055698}
   attentionText: {fileID: 577148011}
   movmentText: {fileID: 1968190263}
+  reportResultText: {fileID: 1439284380}
   shopPanel: {fileID: 1471793988}
   reportPanel: {fileID: 1249024685}
   playPanel: {fileID: 671108877}
@@ -2159,7 +2160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1249024686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2542,8 +2543,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.32, y: 1.482}
-  m_SizeDelta: {x: 632.15, y: 60.306}
+  m_AnchoredPosition: {x: -0.81, y: 1.644}
+  m_SizeDelta: {x: 952.62, y: 78.11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1439284380
 MonoBehaviour:
