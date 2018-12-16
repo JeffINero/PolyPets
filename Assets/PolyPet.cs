@@ -53,6 +53,7 @@ public class PolyPet
         playingSatisfied = playingSatisfied < 0 ? 0 : playingSatisfied;
         movmentSatisfied = movmentSatisfied < 0 ? 0 : movmentSatisfied;
 
+        // Neue History anlegen.
         history.Add(new PolyPetStatsHistory(hungerSatisfied, thirstSatisfied, playingSatisfied, movmentSatisfied));
     }
 

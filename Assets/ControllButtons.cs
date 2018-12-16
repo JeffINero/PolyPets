@@ -44,6 +44,7 @@ public class ControllButtons : MonoBehaviour
         int movmentSatisfied = 1100;
         DateTime lastUpdate = DateTime.Now;
 
+        // Lade das PolyPet von der Datei.
         if (File.Exists(Application.persistentDataPath + "/myPet.txt"))
         {
             string[] test = File.ReadAllLines(Application.persistentDataPath + "/myPet.txt");
@@ -66,11 +67,11 @@ public class ControllButtons : MonoBehaviour
             }
         }
 
+        // Erstelle dein PolyPet.
         polyPet = new PolyPet(name, hungerSatisfied, thirstSatisfied, playingSatisfied, movmentSatisfied, lastUpdate);
 
-        stateTimer = new Timer(polyPet.updateStats, null, 0, 1000);
-
-        //File.WriteAllLines(Application.persistentDataPath + "/PolyPets/myPet", new string[] { "TEST OF POLY", "PETS" });
+        // Erstelle den Timer (Alle 10 Minuten ausführen).
+        stateTimer = new Timer(polyPet.updateStats, null, 0, 900000);
     }
 
     /**
@@ -80,6 +81,7 @@ public class ControllButtons : MonoBehaviour
     {
         if (pauseStatus)
         {
+            // Speicher dein PolyPet.
             File.WriteAllLines(Application.persistentDataPath + "/myPet.txt", new string[] {
                 polyPet.Name,
                 ""+polyPet.HungerSatisfied,
