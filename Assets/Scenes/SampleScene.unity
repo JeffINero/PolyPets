@@ -2231,6 +2231,7 @@ GameObject:
   - component: {fileID: 1361223588}
   - component: {fileID: 1361223590}
   - component: {fileID: 1361223589}
+  - component: {fileID: 1361223591}
   m_Layer: 5
   m_Name: healthyText
   m_TagString: Untagged
@@ -2268,7 +2269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2296,6 +2297,25 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1361223587}
   m_CullTransparentMesh: 0
+--- !u!114 &1361223591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1361223587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30b3807e409b3543841eea4eba3793e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+  m_size: 3
+  glintEffect: 0
+  glintVertex: 0
+  glintWidth: 0
+  glintColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1375737368 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100048, guid: a7e18f81843db3c469007e3ddaa2c654,
@@ -2373,7 +2393,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a8c1fe3e992f570489f3b97f97b67766, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e649bc4bc84087541876a0a1f3eeca19, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3184,6 +3204,8 @@ GameObject:
   - component: {fileID: 1908720750}
   - component: {fileID: 1908720752}
   - component: {fileID: 1908720751}
+  - component: {fileID: 1908720754}
+  - component: {fileID: 1908720753}
   m_Layer: 5
   m_Name: walkText
   m_TagString: Untagged
@@ -3221,7 +3243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3241,7 +3263,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'You walked: 0.0km'
+  m_Text: 'You walked: 0.00km'
 --- !u!222 &1908720752
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3249,6 +3271,38 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1908720749}
   m_CullTransparentMesh: 0
+--- !u!114 &1908720753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1908720749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4271f84f09057cc439bcc10a75539a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkText: {fileID: 1908720751}
+  oldDistance: 0
+--- !u!114 &1908720754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1908720749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30b3807e409b3543841eea4eba3793e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+  m_size: 3
+  glintEffect: 0
+  glintVertex: 0
+  glintWidth: 0
+  glintColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1929108974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,7 +3654,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 961fe0d2c5096104e8c0644c26f22870, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98189543132234e44bf93796e0e003c7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

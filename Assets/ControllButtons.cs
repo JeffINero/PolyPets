@@ -158,6 +158,9 @@ public class ControllButtons : MonoBehaviour
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
 
+        // Bewegungtracken beginnen
+        LocationService.getInstance().begin();
+
         polyPet.resetMovment();
     }
 
