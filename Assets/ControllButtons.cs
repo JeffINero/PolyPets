@@ -15,11 +15,16 @@ public class ControllButtons : MonoBehaviour
 
     private PolyPet polyPet;
     private Timer stateTimer;
+    private int selectedItem = 0;
+    private double foodAmount = 0;
+    private int cost = 0;
 
     public Button menuButton, walkButton, feedButton, playButton, doctorButton, shopButton, reportButton, leaveButton;
-    public Text healthyText, walkText, feedingText, attentionText, movmentText, reportResultText;
-    public GameObject shopPanel, reportPanel, playPanel, feedPanel;
+    public Text healthyText, walkText, reportResultText , amountInInventoryText;
+    public GameObject shopPanel, reportPanel, playPanel, feedPanel, alertBox, feedAlertBox, feedFailAlertBox;
 
+    public Slider feedingSlider, movementSlider, attentionSlider;
+    public Image feedingFill, movementFill, attentionFill;
     /**
      * Wird aufgerufen bei jedem Frame.
      */
@@ -39,7 +44,7 @@ public class ControllButtons : MonoBehaviour
     {
         string name = "PolyPet";
         int hungerSatisfied = 1100;
-        int thirstSatisfied = 11000;
+        int thirstSatisfied = 1100;
         int playingSatisfied = 1100;
         int movmentSatisfied = 1100;
         DateTime lastUpdate = DateTime.Now;
@@ -70,8 +75,8 @@ public class ControllButtons : MonoBehaviour
         // Erstelle dein PolyPet.
         polyPet = new PolyPet(name, hungerSatisfied, thirstSatisfied, playingSatisfied, movmentSatisfied, lastUpdate);
 
-        // Erstelle den Timer (Alle 10 Minuten ausführen).
-        stateTimer = new Timer(polyPet.updateStats, null, 0, 900000);
+        // Erstelle den Timer (Alle 15 Minuten ausführen).
+        stateTimer = new Timer(polyPet.updateStats, null, 0, 90000);
     }
 
     /**
@@ -118,6 +123,9 @@ public class ControllButtons : MonoBehaviour
         reportPanel.SetActive(false);
         playPanel.SetActive(false);
         feedPanel.SetActive(false);
+        alertBox.SetActive(false);
+        feedAlertBox.SetActive(false);
+        feedFailAlertBox.SetActive(false);
 
         reportButton.gameObject.SetActive(true);
         menuButton.gameObject.SetActive(true);
@@ -172,6 +180,7 @@ public class ControllButtons : MonoBehaviour
         cleanAll();
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
+        amountInInventoryText.text = "Total dog Food (in kg): " + foodAmount / 1000;
         shopPanel.SetActive(true);
         leaveButton.gameObject.SetActive(true);
     }
@@ -198,10 +207,33 @@ public class ControllButtons : MonoBehaviour
         cleanAll();
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
+        feedAlertBox.SetActive(true);
+        leaveButton.gameObject.SetActive(true);
+    }
+
+    public void checkFood()
+    {
+        if (foodAmount >= 300)
+        {
+            foodAmount -= 300;
+            polyPet.resetHunger();
+            openFeedScreen();
+        }
+        else
+        {
+            feedAlertBox.SetActive(false);
+            feedFailAlertBox.SetActive(true);
+        }
+    }
+
+    public void openFeedScreen()
+    {
+        cleanAll();
+        reportButton.gameObject.SetActive(false);
+        menuButton.gameObject.SetActive(false);
         feedPanel.SetActive(true);
         leaveButton.gameObject.SetActive(true);
 
-        polyPet.resetHunger();
         polyPet.resetThirst();
     }
 
@@ -233,13 +265,75 @@ public class ControllButtons : MonoBehaviour
             reportResultText.color = Color.red;
         }
 
-        feedingText.text = polyPet.HungerSatisfied / 100 + "";
-        attentionText.text = polyPet.PlayingSatisfied / 100 + "";
-        movmentText.text = polyPet.MovmentSatisfied / 100 + "";
+        //feedingText.text = polyPet.HungerSatisfied / 100 + "";
+        //attentionText.text = polyPet.PlayingSatisfied / 100 + "";
+        //movmentText.text = polyPet.MovmentSatisfied / 100 + "";
 
-        updateColor(polyPet.HungerSatisfied / 100, feedingText);
-        updateColor(polyPet.PlayingSatisfied / 100, attentionText);
-        updateColor(polyPet.MovmentSatisfied / 100, movmentText);
+        feedingSlider.value = polyPet.HungerSatisfied + polyPet.ThirstSatisfied /2 / 100;
+        attentionSlider.value = polyPet.PlayingSatisfied / 100;
+        movementSlider.value = polyPet.MovmentSatisfied / 100;
+
+        if (feedingSlider.value>6)
+        {
+            var tempColor = Color.green;
+            tempColor.a = 0.42f;
+            feedingFill.color = tempColor;
+        }
+        else if (feedingSlider.value > 3)
+        {
+            var tempColor = Color.yellow;
+            tempColor.a = 0.42f;
+            feedingFill.color = tempColor;
+        }
+        else
+        {
+            var tempColor = Color.red;
+            tempColor.a = 0.42f;
+            feedingFill.color = tempColor;
+        }
+
+
+        if (attentionSlider.value > 6)
+        {
+            var tempColor = Color.green;
+            tempColor.a = 0.42f;
+            attentionFill.color = tempColor;
+        }
+        else if (attentionSlider.value > 3)
+        {
+            var tempColor = Color.yellow;
+            tempColor.a = 0.42f;
+            attentionFill.color = tempColor;
+        }
+        else
+        {
+            var tempColor = Color.red;
+            tempColor.a = 0.42f;
+            attentionFill.color = tempColor;
+        }
+
+
+
+
+        if (movementSlider.value > 6)
+        {
+            var tempColor = Color.green;
+            tempColor.a = 0.42f;
+            movementFill.color = tempColor;
+        }
+        else if (movementSlider.value > 3)
+        {
+            var tempColor = Color.yellow;
+            tempColor.a = 0.42f;
+            movementFill.color = tempColor;
+        }
+        else
+        {
+            var tempColor = Color.red;
+            tempColor.a = 0.42f;
+            movementFill.color = tempColor;
+        }
+
     }
 
     /**
@@ -258,5 +352,37 @@ public class ControllButtons : MonoBehaviour
             return;
         }
         text.color = Color.red;
+    }
+
+    public void buyItem(int i)
+    {
+        selectedItem = i;
+        alertBox.SetActive(true);
+    }
+
+    public void acceptItem()
+    {
+        switch (selectedItem)
+        {
+            case 1:
+                foodAmount+=3000;
+                cost += 799;
+                break;
+            case 2:
+                foodAmount+=15000;
+                cost += 2699;
+                break;
+            case 3:
+                foodAmount += 30000;
+                cost += 4999;
+                break;
+        }
+        alertBox.SetActive(false);
+        amountInInventoryText.text = "Total dog Food (in kg): " + foodAmount/1000 + "kg";
+    }
+
+    public void closeAlert()
+    {
+        alertBox.SetActive(false);
     }
 }

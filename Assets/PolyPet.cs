@@ -28,7 +28,7 @@ public class PolyPet
         this.movmentSatisfied = movmentSatisfied;
 
         // Wie oft muss "updateStats" aufgerufen werden, damit die Stats angepasst werden auf die vergangene Zeit.
-        // ("updateStats" wird standard mäßig all 10 Minuten aufgerufen (900 Sekunden))
+        // ("updateStats" wird standard mäßig all 15 Minuten aufgerufen (900 Sekunden))
         int tenMinutesTimesPassed =  (int) ((DateTime.Now.Subtract(lastUpdate)).TotalSeconds / 900.0);
 
         // Für die verpasste Zeit "updateStats" aufrufen.
@@ -83,4 +83,6 @@ public class PolyPet
     {
         playingSatisfied = 1100;
     }
+
+    
 }
