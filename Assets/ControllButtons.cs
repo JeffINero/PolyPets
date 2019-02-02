@@ -19,9 +19,15 @@ public class ControllButtons : MonoBehaviour
     private double foodAmount = 0;
     private int cost = 0;
 
+    private bool tutorialOpen = false;
+
     public Button menuButton, walkButton, feedButton, playButton, doctorButton, shopButton, reportButton, leaveButton;
     public Text healthyText, walkText, reportResultText , amountInInventoryText;
-    public GameObject shopPanel, reportPanel, playPanel, feedPanel, alertBox, feedAlertBox, feedFailAlertBox;
+    public GameObject shopPanel, reportPanel, playPanel, tutorialPanel, feedPanel, alertBox, feedAlertBox, feedFailAlertBox;
+
+    public Button tutMenuButton, tutWalkButton, tutFeedButton, tutPlayButton, tutDoctorButton, tutShopButton, tutReportButton;
+    public Text tutorialText, reportText, menuText, menuExplainedText;
+    public Image menuArrow, reportArrow;
 
     public Slider feedingSlider, movementSlider, attentionSlider;
     public Image feedingFill, movementFill, attentionFill;
@@ -34,6 +40,29 @@ public class ControllButtons : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             cleanAll();
+        }
+
+        // Überprüfe ob weiter das Tutorial offen ist.
+        if (Input.touches.Length > 0 && tutorialOpen)
+        {
+            if (Input.touches[0].phase == TouchPhase.Began)
+            {
+
+                // Überprüfe ob das nächste tutorial angezeigt werden soll oder ob es geschlossen werden soll.
+                if (tutorialText.text == "Tutorial 1/3") {
+                    this.openTutTwo();
+                }
+                else if (tutorialText.text == "Tutorial 2/3")
+                {
+                    this.openTutThree();
+                }
+                else
+                {
+                    tutorialOpen = false;
+
+                    tutorialPanel.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -70,6 +99,10 @@ public class ControllButtons : MonoBehaviour
             {
                 // Converting Failed
             }
+        }
+        else
+        {
+            openTutorial();
         }
 
         // Erstelle dein PolyPet.
@@ -153,6 +186,20 @@ public class ControllButtons : MonoBehaviour
         leaveButton.gameObject.SetActive(true);
         reportButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
+    }
+
+    /**
+     * Öffnet das Tutorial.
+     */
+    public void openTutorial()
+    {
+        cleanAll();
+
+        tutorialPanel.gameObject.SetActive(true);
+
+        this.openTutOne();
+
+        tutorialOpen = true;
     }
 
     /**
@@ -252,7 +299,7 @@ public class ControllButtons : MonoBehaviour
         if ((polyPet.HungerSatisfied / 100) + (polyPet.PlayingSatisfied / 100) + (polyPet.MovmentSatisfied / 100) > 22)
         {
             reportResultText.text = "You are ready to own a Pet";
-            reportResultText.color = Color.black;
+            reportResultText.color = Color.white;
         }
         else if ((polyPet.HungerSatisfied / 100) + (polyPet.PlayingSatisfied / 100) + (polyPet.MovmentSatisfied / 100) > 11)
         {
@@ -384,5 +431,62 @@ public class ControllButtons : MonoBehaviour
     public void closeAlert()
     {
         alertBox.SetActive(false);
+    }
+
+    /**
+     * Öffnet das erste Tutorial Screen.
+     */
+    private void openTutOne()
+    {
+        tutorialText.text = "Tutorial 1/3";
+
+        tutDoctorButton.gameObject.SetActive(false);
+        tutFeedButton.gameObject.SetActive(false);
+        tutPlayButton.gameObject.SetActive(false);
+        tutShopButton.gameObject.SetActive(false);
+        tutWalkButton.gameObject.SetActive(false);
+        menuExplainedText.gameObject.SetActive(false);
+        tutMenuButton.gameObject.SetActive(false);
+        menuArrow.gameObject.SetActive(false);
+        menuText.gameObject.SetActive(false);
+
+        tutReportButton.gameObject.SetActive(true);
+        reportArrow.gameObject.SetActive(true);
+        reportText.gameObject.SetActive(true);
+    }
+
+    /**
+     * Öffnet das zweite Tutorial Screen.
+     */
+    private void openTutTwo()
+    {
+        tutorialText.text = "Tutorial 2/3";
+
+        tutReportButton.gameObject.SetActive(false);
+        reportArrow.gameObject.SetActive(false);
+        reportText.gameObject.SetActive(false);
+
+        tutMenuButton.gameObject.SetActive(true);
+        menuArrow.gameObject.SetActive(true);
+        menuText.gameObject.SetActive(true);
+    }
+
+    /**
+     * Öffnet das dritte Tutorial Screen.
+     */
+    private void openTutThree()
+    {
+        tutorialText.text = "Tutorial 3/3";
+
+        tutMenuButton.gameObject.SetActive(false);
+        menuArrow.gameObject.SetActive(false);
+        menuText.gameObject.SetActive(false);
+
+        tutDoctorButton.gameObject.SetActive(true);
+        tutFeedButton.gameObject.SetActive(true);
+        tutPlayButton.gameObject.SetActive(true);
+        tutShopButton.gameObject.SetActive(true);
+        tutWalkButton.gameObject.SetActive(true);
+        menuExplainedText.gameObject.SetActive(true);
     }
 }
