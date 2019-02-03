@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-H:/studium/Semester 3/IP/PolyPets/PolyPets.apk
+H:/Projects/PolyPets/PolyPets.apk
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
