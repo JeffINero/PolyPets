@@ -18,11 +18,12 @@ public class ControllButtons : MonoBehaviour
     private int selectedItem = 0;
     private double foodAmount = 0;
     private int cost = 0;
+    private DateTime costDate = DateTime.Now;
 
     private bool tutorialOpen = false;
 
     public Button menuButton, walkButton, feedButton, playButton, doctorButton, shopButton, reportButton, leaveButton;
-    public Text healthyText, walkText, reportResultText , amountInInventoryText;
+    public Text healthyText, walkText, reportResultText, costText, amountInInventoryText;
     public GameObject shopPanel, reportPanel, playPanel, tutorialPanel, feedPanel, alertBox, feedAlertBox, feedFailAlertBox;
 
     public Button tutMenuButton, tutWalkButton, tutFeedButton, tutPlayButton, tutDoctorButton, tutShopButton, tutReportButton;
@@ -31,6 +32,7 @@ public class ControllButtons : MonoBehaviour
 
     public Slider feedingSlider, movementSlider, attentionSlider;
     public Image feedingFill, movementFill, attentionFill;
+
     /**
      * Wird aufgerufen bei jedem Frame.
      */
@@ -77,6 +79,7 @@ public class ControllButtons : MonoBehaviour
         int playingSatisfied = 1100;
         int movmentSatisfied = 1100;
         DateTime lastUpdate = DateTime.Now;
+        DateTime costDate = DateTime.Now;
 
         // Lade das PolyPet von der Datei.
         if (File.Exists(Application.persistentDataPath + "/myPet.txt"))
@@ -85,7 +88,7 @@ public class ControllButtons : MonoBehaviour
 
             try
             {
-                if (test.Length > 5)
+                if (test.Length > 8)
                 {
                     name = test[0];
                     hungerSatisfied = Convert.ToInt32(test[1]);
@@ -93,6 +96,19 @@ public class ControllButtons : MonoBehaviour
                     playingSatisfied = Convert.ToInt32(test[3]);
                     movmentSatisfied = Convert.ToInt32(test[4]);
                     lastUpdate = DateTime.ParseExact(test[5], "O", CultureInfo.InvariantCulture);
+                    foodAmount = Convert.ToInt32(test[6]);
+                    cost = Convert.ToInt32(test[7]);
+                    costDate = DateTime.ParseExact(test[8], "O", CultureInfo.InvariantCulture);
+
+                    // Schau ob es ein neuer Monat geworden ist.
+                    if (costDate.Month != this.costDate.Month && costDate.Year == this.costDate.Year)
+                    {
+                        cost = 0;
+                    }
+                    else
+                    {
+                        this.costDate = costDate;
+                    }
                 }
             }
             catch (Exception e)
@@ -126,7 +142,10 @@ public class ControllButtons : MonoBehaviour
                 ""+polyPet.ThirstSatisfied,
                 ""+polyPet.PlayingSatisfied,
                 ""+polyPet.MovmentSatisfied,
-                DateTime.Now.ToString("O")
+                DateTime.Now.ToString("O"),
+                ""+foodAmount,
+                ""+cost,
+                costDate.ToString("O"),
             });
 
             stateTimer.Dispose();
@@ -312,9 +331,9 @@ public class ControllButtons : MonoBehaviour
             reportResultText.color = Color.red;
         }
 
-        //feedingText.text = polyPet.HungerSatisfied / 100 + "";
-        //attentionText.text = polyPet.PlayingSatisfied / 100 + "";
-        //movmentText.text = polyPet.MovmentSatisfied / 100 + "";
+        string costString = ""+cost;
+        // costText.text = costString.Substring(0, costString.Length - 2) + "," + costString.Substring(costString.Length - 2, costString.Length) + "€";
+        costText.text = cost / 100 + "," + (cost >= 100 ? costString.Substring(costString.Length - 2, 2) : costString) + "€";
 
         feedingSlider.value = polyPet.HungerSatisfied + polyPet.ThirstSatisfied /2 / 100;
         attentionSlider.value = polyPet.PlayingSatisfied / 100;
